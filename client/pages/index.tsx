@@ -1,9 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '@components/Layout/Layout'
 import { Card } from 'semantic-ui-react'
 import KawaiiHeader from '@components/KawaiiHeader/KawaiiHeader'
 
+const query = `
+  query{
+    avos{
+      id
+      image
+      name
+      createdAt
+      sku
+      price
+      attributes {
+        description
+        taste
+        shape
+        hardiness
+      }
+    }
+  }
+`
+
 const HomePage = () => {
+  useEffect(() => {
+    fetch('http://platzi-graphql.herokuapp.com/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+      }),
+    })
+  }, [])
+
   return (
     <Layout title="Home">
       <KawaiiHeader />

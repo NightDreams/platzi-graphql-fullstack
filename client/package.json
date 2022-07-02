@@ -29,5 +29,8 @@
   "peerDependencies": {
     "eslint": "*",
     "typescript": "*"
+  },
+  "volta": {
+    "extends": "../package.json"
   }
 }
