@@ -23,16 +23,30 @@ const query = `
 `
 
 const HomePage = () => {
+  const [items, setItems] = useState<TProduct[]>([])
+
   useEffect(() => {
-    fetch('http://platzi-graphql.herokuapp.com/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-      }),
-    })
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVICE_URL}/graphql`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              query,
+            }),
+          }
+        )
+        const { data } = (await response.json()) as { data: TProduct[] }
+        setItems(data)
+      } catch (e) {
+        console.log('Something went wrong', e)
+      }
+    }
+    fetchItems()
   }, [])
 
   return (
