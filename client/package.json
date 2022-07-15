@@ -11,8 +11,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "autoprefixer": "^10.4.0",
     "axios": "^0.27.2",
+    "graphql": "^16.5.0",
     "next": "12.x.x",
     "postcss": "^8.4.4",
     "react": "17.x.x",

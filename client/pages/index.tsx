@@ -1,26 +1,22 @@
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery, gql } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import Layout from '@components/Layout/Layout'
 import { Card } from 'semantic-ui-react'
 import KawaiiHeader from '@components/KawaiiHeader/KawaiiHeader'
 
-const query = `
-  query{
-    avos{
-      id
-      image
-      name
-      createdAt
-      sku
-      price
-      attributes {
-        description
-        taste
-        shape
-        hardiness
-      }
-    }
+const avocadofragment = `
+  id
+  image
+  name
+  createdAt
+  sku
+  price
+  attributes {
+    description
+    taste
+    shape
+    hardiness
   }
 `
 const baseUrl = process.env.NEXT_PUBLIC_SERVICE_URL || 'http://localhost:4000'
@@ -31,17 +27,19 @@ const requester = axios.create({
 })
 
 const useAvocados = () => {
-  return useQuery('avocados', async () => {
-    const response = await requester.post<{ data: TProduct[] }>('/graphql', {
-      query,
-    })
-    return response.data.data
-  })
+  const query = gql`
+    query {
+      avos{
+        ${avocadofragment}
+      }
+    }
+  `
+  return useQuery(query)
 }
 
 const HomePage = () => {
-  const { data, status } = useAvocados()
-  console.log({ data, status })
+  const { data, loading } = useAvocados()
+  console.log({ data, loading })
 
   return (
     <Layout title="Home">
