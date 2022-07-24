@@ -1,53 +1,46 @@
 import { useState } from 'react'
-import { useQuery, gql } from '@apollo/client'
 import Layout from '@components/Layout/Layout'
 import { Card } from 'semantic-ui-react'
 import KawaiiHeader from '@components/KawaiiHeader/KawaiiHeader'
+import { GetAllAvocadosDocument, Avocado } from '../service/graphql'
 
-const avocadoFragment = `
-  id
-  image
-  name
-  createdAt
-  sku
-`
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import client from '../service/client'
+export const getStaticProps: GetStaticProps<{ products: Avocado[] }> =
+  async () => {
+    try {
+      const response = await client.query({
+        query: GetAllAvocadosDocument,
+      })
 
-const useAvocados = () => {
-  const query = gql`
-    query GetAllAvos {
-      avos {
-        ${avocadoFragment}
+      if (response.data.avos == null) {
+        throw new Error('Failed to request')
+      }
+      // as Avocado[] > was indifferent here
+      const products = response.data.avos as Avocado[]
+      return {
+        props: {
+          products,
+        },
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        props: [],
       }
     }
-  `
-  return useQuery(query)
-}
+  }
 
-const useAvocado = (id: number | string) => {
-  const query = gql`
-  query GetAvo($avoId: ID!) {
-      avo(id: $avoId) {
-        ${avocadoFragment}
-      }
-    }
-  `
-
-  return useQuery(query, { variables: { avoId: id } })
-}
-
-const HomePage = () => {
+const HomePage = ({
+  products,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [isEnabled, setIsEnabled] = useState(false)
-  const { data, loading } = useAvocados()
 
-  console.log({ data, loading })
+  console.log({ products })
 
   return (
     <Layout title="Home">
       <KawaiiHeader />
-      <div style={{ margin: '2rem 0' }}>
-        <button onClick={() => setIsEnabled(true)}>Fetch child</button>
-        {isEnabled && <ChildComponent />}
-      </div>
       <Card.Group itemsPerRow={2} centered>
         {documentationList.map((doc) => (
           <Card
@@ -61,13 +54,6 @@ const HomePage = () => {
       </Card.Group>
     </Layout>
   )
-}
-
-function ChildComponent() {
-  const { data, loading } = useAvocado(1)
-  console.log('Single avocado: ', { data, loading })
-
-  return <p>Mounted</p>
 }
 
 const documentationList = [

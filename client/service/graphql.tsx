@@ -1,11 +1,9 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -109,48 +107,4 @@ export type GetAllAvocadosQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllAvocadosQuery = { __typename?: 'Query', avos: Array<{ __typename?: 'Avocado', id: string, image: string, name: string, createdAt: any, sku: string, price: number, attributes: { __typename?: 'Attributes', description?: string | null | undefined, taste?: string | null | undefined, shape?: string | null | undefined, hardiness?: string | null | undefined } } | null | undefined> };
 
 
-export const GetAllAvocadosDocument = gql`
-    query GetAllAvocados {
-  avos {
-    id
-    image
-    name
-    createdAt
-    sku
-    price
-    attributes {
-      description
-      taste
-      shape
-      hardiness
-    }
-  }
-}
-    `;
-
-/**
- * __useGetAllAvocadosQuery__
- *
- * To run a query within a React component, call `useGetAllAvocadosQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllAvocadosQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetAllAvocadosQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetAllAvocadosQuery(baseOptions?: Apollo.QueryHookOptions<GetAllAvocadosQuery, GetAllAvocadosQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllAvocadosQuery, GetAllAvocadosQueryVariables>(GetAllAvocadosDocument, options);
-      }
-export function useGetAllAvocadosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllAvocadosQuery, GetAllAvocadosQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllAvocadosQuery, GetAllAvocadosQueryVariables>(GetAllAvocadosDocument, options);
-        }
-export type GetAllAvocadosQueryHookResult = ReturnType<typeof useGetAllAvocadosQuery>;
-export type GetAllAvocadosLazyQueryHookResult = ReturnType<typeof useGetAllAvocadosLazyQuery>;
-export type GetAllAvocadosQueryResult = Apollo.QueryResult<GetAllAvocadosQuery, GetAllAvocadosQueryVariables>;
+export const GetAllAvocadosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllAvocados"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"avos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"sku"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"attributes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"taste"}},{"kind":"Field","name":{"kind":"Name","value":"shape"}},{"kind":"Field","name":{"kind":"Name","value":"hardiness"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllAvocadosQuery, GetAllAvocadosQueryVariables>;
