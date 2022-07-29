@@ -24,3 +24,11 @@ query GetAvocado($avoId: ID!) {
     ...Avocado
   }
 }
+
+# 1 creamos new querie
+# 2 generate new querie
+mutation addAvocado($data: AvoCreateInput!) {
+  createAvo(data: $data) {
+    ...Avocado
+  }
+}
